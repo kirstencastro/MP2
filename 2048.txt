@@ -1,0 +1,229 @@
+#ifndef __2048__
+#define __2048__
+
+#include <cstdlib>
+#include <iostream>
+#include <fstream>
+#include <iomanip>
+#include <cstdio>
+#include <time.h>
+
+class G2048 {
+    private:
+        // This data member represents the 4x4 board.
+        int board[4][4];
+
+        // This data member represents the current score for the game.
+        int score;
+
+        // This data member stores the name of the file to which the game is/will be saved.
+        char* filename;
+
+
+        // This function randomly adds a tile of value 2 or 4 to the board after each valid turn.
+        void addTile() {
+            srand(time(0));
+            int tile, rand_tile = rand() % 2;
+            int place, rand_place = rand() % 16;
+            int k, l;
+
+            if (rand_tile == 0) {tile = 2;}
+            else {tile = 4;}
+            std::cout << tile << std::endl;
+
+            k = rand_place/4;
+            l = rand_place%4;
+
+            std::cout << k << " " << l << std::endl << std::endl;
+            board[k][l] = tile;
+
+            for (k = 0; k < 4; k++) {
+                for (l = 0; l < 4; l++) {
+                    std::cout << board[k][l] << " ";
+                }
+                std::cout << std::endl;
+            }
+
+            /* INSERT CODE: Randomize place of added tile, check if it's occupied.
+            If yes, choose another place until free. */
+
+        };
+
+
+        /* This function prompts for an input character from the player, then returns the value.
+        The input represents the direction to take, or the player's desire to quit. */
+        char getInput() {
+            char direction;
+
+            std::cout << "Enter move: ";
+            std::cin >> direction;
+
+            // std::cout << std::endl << "MOVE: " << direction << std::endl << std::endl;
+
+            return direction;
+        };
+
+
+        /* This function moves the tiles in the specified direction, computes, and updates the score.
+        It returns true if the state of the board has changed (move is valid). */
+        bool move(char direction) {
+            // char direction = getInput();
+
+            bool key;
+
+            std::cout << direction << std::endl;
+
+            /* INSERT CODE: If user enters this key, checks if move is possible then moves.
+            If tiles are combined, compute for the score, and update the score. */
+
+            // hasMove();
+
+            if (direction == 'q' || direction == 'Q') {
+                score += 10;
+                key = 0;
+                saveGame();
+            }
+
+            else {
+                key = 1;
+            }
+
+            return key;
+        };
+
+
+        // This function prints in the terminal the current state of the board.
+        void drawBoard() {
+            system("cls"), system("clear");
+
+            // INSERT CODE: While loop???
+
+            int k, l;
+            std::cout << "Let's play 2048!" << std::endl << std::endl;
+            std::cout << "SCORE: " << score << std::endl << std::endl;
+
+            for (k = 0; k < 9; k++) {
+                for (l = 0; l < 29; l++) {
+                    if (k % 2 ==0) {
+                        if (l % 7 == 0) {
+                            std::cout << '+';
+                        }
+                        else  {
+                            std::cout << '-';
+                        }
+                    }
+
+                    else {
+                        if (l % 7 == 0) {
+                            std::cout << '|';
+                        }
+                        else {
+                            std::cout << ' ';
+                        }
+                    }
+                }
+                std::cout << std::endl;
+            }
+
+            std::cout << std::endl << std::endl;
+            std::cout << "(W) Up" << "     " << "(S) Down" << "     " << "(A) Left" << "     " << "(D) Right";
+            std::cout << "     " << "(Q) Quit" << std::endl << std::endl;
+
+//            hasMove();
+            char direction = getInput();
+            move(direction);
+
+        };
+
+
+        // This function checks if the game is already won.
+        bool hasReached2048();
+
+
+        // This function checks if there is still a possible move.
+        bool hasMove() {
+            bool moves;
+
+            // INSERT CODE: Check if there are still moves.
+
+            if (moves == 0) {
+                std::cout << "GAME OVER! No more possible moves." << std::endl;
+            }
+
+            return moves;
+        };
+
+
+        // This function tries to load a 2048 game from the specified file.
+        void loadGame() {
+            std::cout << "~~~ " << "YAY" << " ~~~~" << std::endl << std::endl;
+        };
+
+
+        /* This function saves the instance of this class to the specified file.
+        If the argument is NULL, prompt for a valid filename. */
+        void saveGame() {
+            std::cout << "AWW" << std::endl;
+        };
+
+
+        /*********************************************
+        PLACE ANY ADDITIONAL MEMBER DECLARATIONS HERE
+        **********************************************/
+
+    public:
+        /* This initializes a game of 2048 - the board, score, and filename.
+        When the filename given is valid, check for the existence of the file, and laod the values contained in it accordingly.
+        Use the same file to save the game upon quitting. */
+        G2048(char* filename) {
+            int board[4][4] = {0,0,0,0,
+                               0,0,0,0,
+                               0,0,0,0,
+                               0,0,0,0};
+
+            if (filename == NULL) {
+                score = 0;
+
+            }
+
+            else {
+                std::ifstream file;
+                file.open(filename);
+
+                if (file.fail()) {
+                    std::cout << "File does not exist." << std::endl;
+                    exit(1);
+                }
+
+                else {
+                    std::cout << "Successfully opened." << std::endl;
+                    loadGame();
+                }
+
+                file.close();
+
+//                loadGame();
+            }
+
+//            drawBoard();
+
+
+            int k, l;
+            for (k = 0; k < 4; k++) {
+                for (l = 0; l < 4; l++) {
+                    std::cout << board[k][l] << " ";
+                }
+                std::cout << std::endl;
+            }
+
+            std::cout << std::endl << std::endl;
+            addTile();
+
+        };
+
+
+        // This function starts/resumes a game of 2048.
+        void startGame() {};
+};
+
+#endif
