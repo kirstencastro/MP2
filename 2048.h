@@ -54,7 +54,6 @@ class G2048 {
 
             std::cout << "Enter move: ";
             std::cin >> direction;
-            addTile();
             return direction;
         };
 
@@ -68,16 +67,14 @@ class G2048 {
             bool valid;
 
             if (key) {
-                if (direction == 'a' || direction == 'A') {
+                if (direction == 'a' || direction == 'A' || direction == 's' || direction == 'S' ||
+                direction == 'd' || direction == 'D' || direction == 'w' || direction == 'W') {addTile();}                }
 
-                }
-
-                else {
+/*                else {
                     std::cout << "Invalid key. Try again." << std::endl;
                     valid = 0;
                 }
-            }
-
+*/            }
 
             /* INSERT CODE: If user enters this key, checks if move is possible then moves.
             If tiles are combined, compute for the score, and update the score. */
@@ -102,10 +99,8 @@ class G2048 {
         void drawBoard() {
             bool loop = 1;
 
-
-
             while (loop) {
-                //system("cls"), system("clear");
+//                system("cls"), system("clear");
                 if (system("cls")) system("clear");
                 int k, l;
                 std::cout << "Let's play 2048!" << std::endl << std::endl;
@@ -155,23 +150,21 @@ class G2048 {
                 std::cout << "(W) Up" << "     " << "(S) Down" << "     " << "(A) Left" << "     " << "(D) Right";
                 std::cout << "     " << "(Q) Quit" << std::endl << std::endl;
 
-                bool move = hasMove();
-                if (!move) {
+                bool hasmove = hasMove();
+                if (!hasmove) {
                     std::cout << std::endl << "GAME OVER. You scored " << score << ".";
                     std::cout << std::endl << "Thanks for playing!" << std::endl;
                     loop = 0;
                 }
                 else {
                     char direction = getInput();
-                    if (direction == 'q'|| direction == 'Q') {loop = 0;}
+                    if (direction == 'q'|| direction == 'Q') {saveGame(); loop = 0;}
+                    else {move(direction);}
                 }
-
 
 //                else {move(direction);}
 
-
             }
-
         };
 
 
@@ -225,15 +218,14 @@ class G2048 {
 
         // This function tries to load a 2048 game from the specified file.
         void loadGame() {
-
-            int i, j;
+            int k, l;
             std::ifstream in(filename);
 
             in >> score;
 
-            for (i = 0; i < 4; i++){
-                for (j = 0; j < 4; j++) {
-                    in >> board[i][j];
+            for (k = 0; k < 4; k++){
+                for (l = 0; l < 4; l++) {
+                    in >> board[k][l];
                 }
             }
 
@@ -243,7 +235,17 @@ class G2048 {
         /* This function saves the instance of this class to the specified file.
         If the argument is NULL, prompt for a valid filename. */
         void saveGame() {
+            int k, l;
+            std::ofstream in(filename);
 
+            in << score << std::endl;
+
+            for (k = 0; k < 4; k++){
+                for (l = 0; l < 4; l++) {
+                    in << board[k][l] << " ";
+                }
+                in << std::endl;
+            }
         };
 
 
@@ -257,13 +259,13 @@ class G2048 {
         Use the same file to save the game upon quitting. */
         G2048(char* filename) {
             this->filename = filename;
+
             int k, l;
             for (k = 0; k < 4; k++) {
                 for (l = 0; l < 4; l++) {
                     board[k][l] = 0;
                 }
             }
-
 
             if (filename == NULL) {
                 score = 0;
