@@ -75,6 +75,7 @@ class G2048 {
                         for (i = 0; i < 4; i++) {
                             temp = 0;
                             j = 1;
+
                             while (j != 4 && temp != 3)  {
                                 if (board[i][temp] == 0) {
                                     board[i][temp] += board[i][j];
@@ -96,10 +97,12 @@ class G2048 {
                                         board[i][2] = board[i][3];
                                         board[i][3] = 0;
                                     }
+
                                     else if (k == 1) {
                                         board[i][2] = board[i][3];
                                         board[i][3] = 0;
                                     }
+
                                     else {
                                         board[i][3] = 0;
                                     }
@@ -107,10 +110,12 @@ class G2048 {
                             }
                         }
                     }
+
                     else if (direction == 'd' || direction == 'D') {
                         for (i = 0; i < 4; i++) {
                             temp = 3;
                             j = 2;
+
                             while (j >=0 && temp > 0)  {
                                 if (board[i][temp] == 0) {
                                     board[i][temp] = board[i][j];
@@ -132,10 +137,12 @@ class G2048 {
                                         board[i][k-2] = board[i][k-3];
                                         board[i][k-3] = 0;
                                     }
+
                                     else if (k == 2) {
                                         board[i][k-1] = board[i][k-2];
                                         board[i][k-2] = 0;
                                     }
+
                                     else {
                                         board[i][k-1] = 0;
                                     }
@@ -222,10 +229,12 @@ class G2048 {
                                     j++;
                                 }
                             }
+
                             else if (l % 7 == 4) {
                                 if (board[i][j] !=0) {std::cout << board[i][j];}
                                 else {std::cout << ' ';}
                             }
+                            
                             else {std::cout << ' ';}
                         }
                     }
