@@ -65,7 +65,7 @@ class G2048 {
 
             bool key = hasMove();
             bool valid;
-            int i, j, temp, cur, k = 0;
+            int i, j = 1, temp = 0, cur, k = 0;
 
             if (key) {
                 if (direction == 'a' || direction == 'A' || direction == 's' || direction == 'S' ||
@@ -90,46 +90,61 @@ class G2048 {
                             for (k = 0; k < 3; k++) {
                                 if (board[i][k] == board[i][k+1]) {
                                     board[i][k] += board[i][k+1];
-                                    if (k != 2) {
-                                        board[i][k+1] = board[i][k+2];
+                                    score += board[i][k+1];
+                                    if (k == 0) {
+                                        board[i][1] = board[i][2];
+                                        board[i][2] = board[i][3];
+                                        board[i][3] = 0;
+                                    }
+                                    else if (k == 1) {
+                                        board[i][2] = board[i][3];
+                                        board[i][3] = 0;
                                     }
                                     else {
-                                        board[i][k+1] = 0;
+                                        board[i][3] = 0;
                                     }
                                 }
                             }
                         }
                     }
-                else if (direction == 'd' || direction == 'D') {
-                    for (i = 0; i < 4; i++) {
-                        temp = 3;
-                        j = 2;
-                        while (j >= 0 && temp > 0)  {
-                            if (board[i][temp] == 0) {
-                                board[i][temp] == board[i][j];
-                                board[i][j] = 0;
-                            }
-
-                            else if (board[i][temp] != 0) {
-                                temp--;
-                                j = temp;
-                            }
-                            j--;
-                        }
-                        for (k = 3; k != 0; k--) {
-                            if (board[i][k] == board[i][k-1]) {
-                                board[i][k] += board[i][k-1];
-                                if (k != 1) {
-                                    board[i][k-1] = board[i][k-2];
-
+                    else if (direction == 'd' || direction == 'D') {
+                        for (i = 0; i < 4; i++) {
+                            temp = 3;
+                            j = 2;
+                            while (j >=0 && temp > 0)  {
+                                if (board[i][temp] == 0) {
+                                    board[i][temp] = board[i][j];
+                                    board[i][j] = 0;
                                 }
-                                else {
-                                    board[i][k-1] = 0;
+
+                                else if (board[i][temp] != 0) {
+                                    temp--;
+                                    j = temp;
+                                }
+                                j--;
+                            }
+                            for (k = 3; k != 0; k--) {
+                                if (board[i][k] == board[i][k-1]) {
+                                    board[i][k] += board[i][k-1];
+                                    score += board[i][k-1];
+                                    if (k == 3) {
+                                        board[i][k-1] = board[i][k-2];
+                                        board[i][k-2] = board[i][k-3];
+                                        board[i][k-3] = 0;
+                                    }
+                                    else if (k == 2) {
+                                        board[i][k-1] = board[i][k-2];
+                                        board[i][k-2] = 0;
+                                    }
+                                    else {
+                                        board[i][k-1] = 0;
+                                    }
                                 }
                             }
                         }
                     }
-                }
+
+
                             /*for (j = 0; j < 3; j++) {
                                 temp =
                                 if (board[i][j] = 0) {
