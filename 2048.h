@@ -65,11 +65,87 @@ class G2048 {
 
             bool key = hasMove();
             bool valid;
+            int i, j, temp, cur, k = 0;
 
             if (key) {
                 if (direction == 'a' || direction == 'A' || direction == 's' || direction == 'S' ||
-                direction == 'd' || direction == 'D' || direction == 'w' || direction == 'W') {addTile();}                }
+                direction == 'd' || direction == 'D' || direction == 'w' || direction == 'W') {
 
+                    if (direction == 'a' || direction == 'A') {
+                        for (i = 0; i < 4; i++) {
+                            temp = 0;
+                            j = 1;
+                            while (j != 4 && temp != 3)  {
+                                if (board[i][temp] == 0) {
+                                    board[i][temp] += board[i][j];
+                                    board[i][j] = 0;
+                                }
+
+                                else if (board[i][temp] != 0) {
+                                    temp++;
+                                    j = temp;
+                                }
+                                j++;
+                            }
+                            for (k = 0; k < 4; k++) {
+                                if (board[i][k] == board[i][k+1]) {
+                                    board[i][k] += board[i][k+1];
+                                    if (k != 1) {
+                                        board[i][k+1] = board[i][k+2];
+                                        board[i][k+2] = 0;
+                                    }
+                                    else {
+                                        board[i][k+1] = 0;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                else if (direction == 'd' || direction == 'D') {
+                    for (i = 0; i < 4; i++) {
+                        temp = 3;
+                        j = 2;
+                        while (j >= 0 && temp > 0)  {
+                            if (board[i][temp] == 0) {
+                                board[i][temp] == board[i][j];
+                                board[i][j] = 0;
+                            }
+
+                            else if (board[i][temp] != 0) {
+                                temp--;
+                                j = temp;
+                            }
+                            j--;
+                        }
+                        for (k = 4; k != 0; k--) {
+                            if (board[i][k] == board[i][k-1]) {
+                                board[i][k] += board[i][k-1];
+                                if (k != 1) {
+                                    board[i][k-1] = board[i][k-2];
+
+                                }
+                                else {
+                                    board[i][k-1] = 0;
+                                }
+                            }
+                        }
+                    }
+                }
+                            /*for (j = 0; j < 3; j++) {
+                                temp =
+                                if (board[i][j] = 0) {
+                                    board[i][j+1] = 0;
+                                    board[i][j] = board[i][j+1];
+                                }*/
+                    /*            else if (board[i][j] == board[i][j+1]) {
+                                    board[i][j] += board[i][j+1];
+                                    board[i][j+1] = 0;
+                                } */
+//                            }
+
+
+                    addTile();
+                }
 /*                else {
                     std::cout << "Invalid key. Try again." << std::endl;
                     valid = 0;
@@ -182,19 +258,20 @@ class G2048 {
 
             for (k = 0; k < 4; k++) {
                 for (l = 0; l < 4; l++) {
-                    if (board[k][l] == 0) {
+                    if (board[k][l] != 0) {
                         moves = 1;
                         break;
                     }
 
-/*                    else {
-                        if (l != 3) {
+                    else {
+                        if (l < 4) {
                             if (board[k][l] == board[k][l+1]) {
                                 moves = 1;
                                 break;
                             }
                         }
-
+                    }
+/*
                         if (k != 3) {
                             if (board[k][l] == board[k+1][l]) {
                                 moves = 1;
@@ -203,15 +280,15 @@ class G2048 {
                         }
 
                         else {ctr++;}
-                    }
+
 */
                 }
             }
 
 
-            if (ctr == 16) {
-                moves = 0;
-            }
+//            if (ctr == 16) {
+//                moves = 0;
+//            }
             return moves;
         };
 
