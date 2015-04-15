@@ -87,12 +87,11 @@ class G2048 {
                                 }
                                 j++;
                             }
-                            for (k = 0; k < 4; k++) {
+                            for (k = 0; k < 3; k++) {
                                 if (board[i][k] == board[i][k+1]) {
                                     board[i][k] += board[i][k+1];
-                                    if (k != 1) {
+                                    if (k != 2) {
                                         board[i][k+1] = board[i][k+2];
-                                        board[i][k+2] = 0;
                                     }
                                     else {
                                         board[i][k+1] = 0;
@@ -117,7 +116,7 @@ class G2048 {
                             }
                             j--;
                         }
-                        for (k = 4; k != 0; k--) {
+                        for (k = 3; k != 0; k--) {
                             if (board[i][k] == board[i][k-1]) {
                                 board[i][k] += board[i][k-1];
                                 if (k != 1) {
