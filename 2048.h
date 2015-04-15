@@ -68,13 +68,14 @@ class G2048 {
 
             if (key) {
                 if (direction == 'a' || direction == 'A' || direction == 's' || direction == 'S' ||
-                direction == 'd' || direction == 'D' || direction == 'w' || direction == 'W') {addTile();}                }
+                direction == 'd' || direction == 'D' || direction == 'w' || direction == 'W') {addTile();}
+            }
 
 /*                else {
                     std::cout << "Invalid key. Try again." << std::endl;
                     valid = 0;
                 }
-*/            }
+*/
 
             /* INSERT CODE: If user enters this key, checks if move is possible then moves.
             If tiles are combined, compute for the score, and update the score. */
@@ -236,8 +237,50 @@ class G2048 {
         If the argument is NULL, prompt for a valid filename. */
         void saveGame() {
             int k, l;
-            std::ofstream in(filename);
+            std::string temp, name;
+            bool exists = 1, incorrect = 1;
+            char choice;
 
+            if (filename == NULL) {
+                while (exists) {
+                    std::cout << "Enter file name: ";
+                    std::cin >> temp;
+
+                    std::ifstream file(temp);
+                    if (file.fail()) {
+                        name = temp;
+                        exists = 0;
+                    }
+
+                    else {
+                        incorrect = 1;
+                        while (incorrect) {
+                            std::cout << "File already exists. Would you like to overwrite? (Y/N) ";
+                            std::cin >> choice;
+                            
+                            if (choice == 'y' || choice == 'Y') {
+                                name = temp;
+                                exists = 0;
+                                incorrect = 0;
+                            }
+
+                            else if (choice == 'n' || choice == 'N') {
+                                std::cout << std::endl;
+                                incorrect = 0;
+                            }
+
+                            else {
+                                std::cout << "Incorrect choice." << std::endl << std::endl;
+                            }
+                        }
+                    }
+                }
+
+            else {
+                name = filename;
+            }
+
+            std::ofstream in(name);
             in << score << std::endl;
 
             for (k = 0; k < 4; k++){
@@ -283,7 +326,6 @@ class G2048 {
                 }
 
                 else {
-                    std::cout << "Successfully opened." << std::endl << std::endl;
                     loadGame();
                 }
 
@@ -291,7 +333,7 @@ class G2048 {
             }
 
             drawBoard();
-            std::cout << std::endl << std::endl;
+            std::cout << std::endl;
         };
 
 
